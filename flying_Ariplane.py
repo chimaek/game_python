@@ -1,4 +1,6 @@
 import pygame
+import random
+
 
 # 배경색과 창크기 설정
 BGcolor_white=(255,255,255)
@@ -16,12 +18,20 @@ def airplane(x, y):
     gamepad.blit(unit, (x, y))
 
 def runGame():
-    global gamepad,clock,unit,background
+    global gamepad,clock,unit,background,background1
+    global enemy,fire
     x=width*0.05
     y=height*0.8
     changeX=0
     backgroundX=0
     backgroundX2=BG_height
+
+    enemy_x=random.randrange(0,width)
+    enemy_y=height
+    fire_x=random.randrange(0,width)
+    fire_y=height
+    random.shuffle(fire)
+    fires=fire[0]
     #플래그 설정
     crashe=False
 
@@ -47,6 +57,8 @@ def runGame():
         gamepad.fill(BGcolor_white)
         backgroundX += 2
         backgroundX2 += 2
+
+
         if backgroundX == -BG_height:
             backgroundX = BG_height
         if backgroundX2 == -BG_height:
@@ -70,6 +82,8 @@ def runGame():
 def initGame():
     #전역 변수로 설정합니다.
     global gamepad,clock,unit,background,background1
+    global enemy,fires
+    fires=[]
     #파이게임 라이브러리를 초기화함 꼭 호출해줘야 합니다.
     pygame.init()
     #게임 판 화면 설정
