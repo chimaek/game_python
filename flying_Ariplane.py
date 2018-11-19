@@ -4,10 +4,10 @@ import pygame
 BGcolor_white=(255,255,255)
 width=500
 height=700
-
+BG_height=700
 # 배경화면
-def BG(x,y):
-    global gamepad,background
+def BG(background,x,y):
+    global gamepad
     gamepad.blit(background,(x,y))
 
 # 전투기 함수
@@ -21,6 +21,7 @@ def runGame():
     y=height*0.8
     changeX=0
     backgroundX=0
+    backgroundX2=BG_height
     #플래그 설정
     crashe=False
 
@@ -42,10 +43,17 @@ def runGame():
                     changeX = 0
         x += changeX
 
-        # 그것이 아니라면 게임판을 흰색으로 채우고
+        # 그것이 아니라면 게임판을 흰색으로 채우기
         gamepad.fill(BGcolor_white)
+        backgroundX += 2
+        backgroundX2 += 2
+        if backgroundX == -BG_height:
+            backgroundX = BG_height
+        if backgroundX2 == -BG_height:
+            backgroundX2 = BG_height
         # 배경화면 호출함.
-        BG(backgroundX, 0)
+        BG(background,0,backgroundX)
+        BG(background1,0,backgroundX2)
         # 비행기 호출함.
         airplane(x,y)
 
@@ -61,7 +69,7 @@ def runGame():
 #게임을 초기화 하고 시작하는 함수입니다.
 def initGame():
     #전역 변수로 설정합니다.
-    global gamepad,clock,unit,background
+    global gamepad,clock,unit,background,background1
     #파이게임 라이브러리를 초기화함 꼭 호출해줘야 합니다.
     pygame.init()
     #게임 판 화면 설정
@@ -72,6 +80,7 @@ def initGame():
     unit=pygame.image.load('images/aircraft.png')
     # 배경화면 로딩
     background = pygame.image.load('images/background.png')
+    background1 = background.copy()
     # 초당 프레임을 위한 변수 생성
     clock = pygame.time.Clock()
     #runGame 함수 호출
