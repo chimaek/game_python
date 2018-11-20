@@ -53,7 +53,7 @@ def runGame():
                     changeX = 5
                 # Z키를 누르면 총알 위치 설정
                 elif(event.key==pygame.K_z):
-                    bulletX=-x+unit_Width
+                    bulletX=x
                     bulletY=y-50
                     bullet_xy.append([bulletX,bulletY])
                 # 일시 정지 5초
@@ -84,7 +84,7 @@ def runGame():
         # 적이 화면을 넘어가면 재생성하는 if문
         bat_y += 7
         if bat_y>=height:
-            bat_x = random.randrange(0,width)
+            bat_x = random.randrange(0,width-108)
             bat_y = -67
         # 방해물이 없다면 방해물이 나오는 속도를 조절하는 함수
         if fire == None:
@@ -92,7 +92,7 @@ def runGame():
         else:
             fire_y += 15
         if fire_y >=height:
-            fire_x = random.randrange(0,width)
+            fire_x = random.randrange(0,width-61)
             fire_y = -140
             random.shuffle(fires)
             fire=fires[0]
