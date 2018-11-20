@@ -51,11 +51,10 @@ def runGame():
                     changeX = -5
                 elif(event.key == pygame.K_RIGHT):
                     changeX = 5
-
                 # Z키를 누르면 총알 위치 설정
                 elif(event.key==pygame.K_z):
-                    bulletX=x+unit_Width
-                    bulletY=y+unit_height/2
+                    bulletX=-x+unit_Width
+                    bulletY=y-50
                     bullet_xy.append([bulletX,bulletY])
                 # 일시 정지 5초
                 elif(event.key==pygame.K_SPACE):
@@ -97,7 +96,7 @@ def runGame():
             fire_y = -140
             random.shuffle(fires)
             fire=fires[0]
-            
+
         # enumerate는 튜플형태로 반환한다 [인덱스,값]
         if len(bullet_xy) != 0:
             for index,positon in enumerate(bullet_xy):
