@@ -159,12 +159,12 @@ def initGame():
     # 게임 제목 설정
     pygame.display.set_caption("떴다 떴다 비행기")
     #비행기 이미지 로딩
-    unit=pygame.image.load('images/aircraft.png')
+    unit=pygame.image.load('images/test_player.png')
     # 배경화면 로딩
     BG = pygame.image.load('images/bg.png')
     BG1 = BG.copy()
     # 적 이미지 및 방해물 추가
-    enemy=pygame.image.load('images/bat.png')
+    enemy=pygame.image.load('images/enermy.png')
     fires.append(pygame.image.load('images/fireball.png'))
     fires.append(pygame.image.load('images/fireball2.png'))
     # 불덩어리 2개와 None객체 5개 넣을 리스트
