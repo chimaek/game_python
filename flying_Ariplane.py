@@ -7,9 +7,10 @@ BGcolor = (255,255,255)
 width = 600
 height = 840
 BG_height = -840
-unit_Width=67
+unit_width=67
 unit_height=67
-
+enemy_width=108
+enemy_height=67
 # 게임에 집어넣을 객체를 만드는 함수
 def into_Game(obj,x,y):
     global gamepad
@@ -17,7 +18,10 @@ def into_Game(obj,x,y):
 
 def runGame():
     global gamepad,clock,unit,BG,BG1
-    global bat,fires,bullet
+    global enemy,fires,bullet,boom
+
+    is_enemy_dead=False
+    boom_count=0
 
     bullet_xy=[]
     # 비행기 좌표설정
@@ -29,8 +33,8 @@ def runGame():
     BG_X = 0
     BG_X2 = BG_height
     # 적, 방해물 위치 지정
-    bat_x = random.randrange(0,width)
-    bat_y = -67
+    enemy_x = random.randrange(0,width)
+    enemy_y = -67
     fire_x = random.randrange(0,width)
     fire_y = -140
     random.shuffle(fires)
@@ -38,7 +42,6 @@ def runGame():
 
     #플래그 설정
     crashe=False
-
     while not crashe:
         # event.get()은 게임에서 발생하는 이벤트 반환하는 함수입니다.
         for event in pygame.event.get():
@@ -82,10 +85,11 @@ def runGame():
         into_Game(BG1,0,BG_X2)
 
         # 적이 화면을 넘어가면 재생성하는 if문
-        bat_y += 7
-        if bat_y>=height:
-            bat_x = random.randrange(0,width-108)
-            bat_y = -67
+        enemy_y += 7
+        if enemy_y>=height:
+            enemy_x = random.randrange(0,width-108)
+            enemy_y = -67
+
         # 방해물이 없다면 방해물이 나오는 속도를 조절하는 함수
         if fire == None:
             fire_y += 30
@@ -102,11 +106,29 @@ def runGame():
             for index,positon in enumerate(bullet_xy):
                 positon[1] -= 15
                 bullet_xy[index][1] = positon[1]
+                # 총알이 적에 명중
+                if positon[1]>enemy_x:
+                    if positon[0] > enemy_y and positon[0] < enemy_y + enemy_x:
+                        bullet_xy.remove(positon)
+                        is_enemy_dead=True
                 if positon[1] <= -50:
-                    bullet_xy.remove(positon)
+                    try:
+                        bullet_xy.remove(positon)
+                    except:
+                        pass
+        if not is_enemy_dead:
+            into_Game(enemy,enemy_x,enemy_y)
+        else:
+            into_Game(boom,enemy_x,enemy_y)
+            boom_count += 1
+            if boom_count > 5:
+                boom_count = 0
+                enemy_x = width
+                enemy_y = random.randrange(0,height-width)
+                is_enemy_dead=False
 
         # 적과 방해물 호출
-        into_Game(bat,bat_x,bat_y)
+        into_Game(enemy,enemy_x,enemy_y)
         if fire != None:
             into_Game(fire,fire_x,fire_y)
 
@@ -128,7 +150,7 @@ def runGame():
 def initGame():
     #전역 변수로 설정합니다.
     global gamepad,clock,unit,BG,BG1
-    global bat,fires,bullet
+    global enemy,fires,bullet,boom
     fires=[]
     #파이게임 라이브러리를 초기화함 꼭 호출해줘야 합니다.
     pygame.init()
@@ -142,7 +164,7 @@ def initGame():
     BG = pygame.image.load('images/background.png')
     BG1 = BG.copy()
     # 적 이미지 및 방해물 추가
-    bat=pygame.image.load('images/bat.png')
+    enemy=pygame.image.load('images/bat.png')
     fires.append(pygame.image.load('images/fireball.png'))
     fires.append(pygame.image.load('images/fireball2.png'))
     # 불덩어리 2개와 None객체 5개 넣을 리스트
@@ -150,6 +172,8 @@ def initGame():
         fires.append(None)
     # 총알이미지 추가
     bullet=pygame.image.load('images/bullet.png')
+    # 폭발이미지 추가
+    boom=pygame.image.load('images/boom.png')
     # 초당 프레임을 위한 변수 생성
     clock = pygame.time.Clock()
     # runGame 함수 호출
