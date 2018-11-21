@@ -16,9 +16,9 @@ fireball1_height = 140
 fireball2_width = 59
 fireball2_height = 86
 
-# 무슨함수일까요
+# 게임오버 텍스트 출력
 def textObj(text, font):
-    textSurface = font.render(text,True,RED)
+    textSurface = font.render(text,True,[255,0,0])
     return textSurface, textSurface.get_rect()
 
 def dispMessage(text):
