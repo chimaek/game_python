@@ -161,7 +161,7 @@ def initGame():
     #비행기 이미지 로딩
     unit=pygame.image.load('images/aircraft.png')
     # 배경화면 로딩
-    BG = pygame.image.load('images/bg2.png')
+    BG = pygame.image.load('images/bg.png')
     BG1 = BG.copy()
     # 적 이미지 및 방해물 추가
     enemy=pygame.image.load('images/bat.png')
