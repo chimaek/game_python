@@ -9,8 +9,8 @@ height = 900
 BG_height = 900
 unit_width=120
 unit_height=55
-enemy_width=108
-enemy_height=67
+enemy_width=71
+enemy_height=91
 # 게임에 집어넣을 객체를 만드는 함수
 def into_Game(obj,x,y):
     global gamepad
@@ -212,8 +212,8 @@ def runGame():
                 positon[1] -= 15
                 bullet_xy[index][1] = positon[1]
                 # 총알이 적에 명중
-                if positon[1]>enemy_x:
-                    if positon[0] > enemy_y and positon[0] < enemy_y + enemy_x:
+                if positon[1]<enemy_y:
+                    if positon[0] > enemy_x and positon[0] < enemy_x + enemy_width:
                         bullet_xy.remove(positon)
                         is_enemy_dead=True
                 if positon[1] <= -50:
