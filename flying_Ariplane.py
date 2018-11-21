@@ -1,7 +1,7 @@
 import pygame
 import random
 from time import sleep
-# 커밋 테스트
+
 # 배경색과 창크기 설정
 BGcolor = (255,255,255)
 width = 600
