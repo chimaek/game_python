@@ -16,11 +16,11 @@ fireball1_height = 140
 fireball2_width = 59
 fireball2_height = 86
 
-# 게임오버 텍스트 출력
+# 텍스트를 출력하는 함수입니다.
 def textObj(text, font):
     textSurface = font.render(text,True,[255,0,0])
     return textSurface, textSurface.get_rect()
-
+# 텍스트의 폰트와 크기등을 결정하고 2초 슬립시킵니다
 def dispMessage(text):
     global gamepad
 
