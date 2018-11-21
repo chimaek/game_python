@@ -230,13 +230,14 @@ def runGame():
                     if positon[0] > enemy_x and positon[0] < enemy_x + enemy_width:
                         enemy_hpc = 1
                         into_Game(effect, enemy_x-40, enemy_y-30)
-                        bullet_xy.remove(positon)
-                        boom_count += 1
-                        if boom_count > 8:
-                            boom_count = 0
-                        if enemy_hp == 0:  # hp가 0이되면
-                            is_enemy_dead=True  # 적을 사망처리하고
-                            enemy_hp = 3  # hp를 초기화 시켜줍니다.
+                        if is_enemy_dead == False:
+                            bullet_xy.remove(positon)
+                            boom_count += 1
+                            if boom_count > 8:
+                                boom_count = 0
+                            if enemy_hp == 0:  # hp가 0이되면
+                                is_enemy_dead=True  # 적을 사망처리하고
+                                enemy_hp = 3  # hp를 초기화 시켜줍니다.
                 if positon[1] <= -50:
                     try:
                         bullet_xy.remove(positon)
