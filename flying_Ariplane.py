@@ -7,8 +7,8 @@ BGcolor = (255,255,255)
 width = 512
 height = 900
 BG_height = 900
-unit_width=67
-unit_height=67
+unit_width=120
+unit_height=55
 enemy_width=108
 enemy_height=67
 # 게임에 집어넣을 객체를 만드는 함수
@@ -25,10 +25,18 @@ def runGame():
 
     bullet_xy=[]
     # 비행기 좌표설정
-    x = width*0.05
-    y = height*0.85
+    x = width*0.37
+    y = height*0.8
     # 비행기 좌표를 변경할 변수 선언
     changeX = 0
+    changeY = 0
+    x_switch = 0
+    y_switch = 0
+    x_save = 0
+    y_save = 0
+    x_doublekey = 0
+    y_doublekey = 0
+
     # 배경화면 설정
     BG_X = 0
     BG_X2 = -BG_height
@@ -51,9 +59,33 @@ def runGame():
             # 키입력시 x좌표를 업데이트함
             if(event.type == pygame.KEYDOWN):
                 if(event.key == pygame.K_LEFT):
-                    changeX = -5
+                    if x_switch == 2:
+                        x_doublekey = 1
+                        x_save = x_switch
+                        x_switch = 1
+                    else:
+                        x_switch = 1
                 elif(event.key == pygame.K_RIGHT):
-                    changeX = 5
+                    if x_switch == 1:
+                        x_doublekey = 1
+                        x_save = x_switch
+                        x_switch = 2
+                    else:
+                        x_switch = 2
+                elif event.key == pygame.K_DOWN:
+                    if y_switch == 1:
+                        y_doublekey = 1
+                        y_save = y_switch
+                        y_switch = 2
+                    else:
+                        y_switch = 2
+                elif event.key == pygame.K_UP:
+                    if y_switch == 2:
+                        y_doublekey = 1
+                        y_save = y_switch
+                        y_switch = 1
+                    else:
+                        y_switch = 1
                 # Z키를 누르면 총알 위치 설정
                 elif(event.key==pygame.K_z):
                     bulletX=x
@@ -62,10 +94,67 @@ def runGame():
                 # 일시 정지 5초
                 elif(event.key==pygame.K_SPACE):
                     sleep(5)
-            if(event.type == pygame.KEYUP):
-                if(event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT):
-                    changeX = 0
-        x += changeX
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_UP:
+                    if y_doublekey == 1:
+                        if y_save == 2:
+                            y_switch = 2
+                            y_doublekey = 0
+                        elif y_save == 1:
+                            y_switch = 2
+                            y_doublekey = 0
+                    else:
+                        y_switch = 0
+                if event.key == pygame.K_DOWN:
+                    if y_doublekey == 1:
+                        if y_save == 2:
+                            y_switch = 1
+                            y_doublekey = 0
+                        elif y_save == 1:
+                            y_switch = 1
+                            y_doublekey = 0
+                    else:
+                        y_switch = 0
+                if event.key == pygame.K_LEFT:
+                    if x_doublekey == 1:
+                        if x_save == 2:
+                            x_switch = 2
+                            x_doublekey = 0
+                        elif x_save == 1:
+                            x_switch = 2
+                            x_doublekey = 0
+                    else:
+                        x_switch = 0
+                if event.key == pygame.K_RIGHT:
+                    if x_doublekey == 1:
+                        if x_save == 2:
+                            x_switch = 1
+                            x_doublekey = 0
+                        elif x_save == 1:
+                            x_switch = 1
+                            x_doublekey = 0
+                    else:
+                        x_switch = 0
+
+            if y_switch == 0:
+                y_change = 0
+            elif y_switch == 1:
+                y_change = -5
+            elif y_switch == 2:
+                y_change = 5
+
+            if x_switch == 0:
+                x_change = 0
+                unit = pygame.image.load('images/test_player.png')
+            elif x_switch == 1:
+                x_change = -5
+                unit = pygame.image.load('images/test_player_left.png')
+            elif x_switch == 2:
+                x_change = 5
+                unit = pygame.image.load('images/test_player_right.png')
+
+        y += y_change
+        x += x_change
         # 비행기가 배경화면을 넘어가지 않게 하는 if문
         if (x < 0 or x > width - 67):
             x -= changeX
