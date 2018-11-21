@@ -30,12 +30,16 @@ def runGame():
     # 비행기 좌표를 변경할 변수 선언
     changeX = 0
     changeY = 0
+    # 비행기 이동을 위한 변수 선언
     x_switch = 0  # 0이면 정지, 1이면 좌측, 2면 우측으로 이동하도록 하기위한 변수입니다.
     y_switch = 0  # 0이면 정지, 1이면 위, 2면 아래로 이동하도록 하기위한 변수입니다.
     x_save = 0  # 좌,우키 2개가 눌렸을시 먼저 누른 키를 기억하기 위한 변수입니다.
     y_save = 0  # 상,하키 2개가 눌렸을시 먼저 누른 키를 기억하기 위한 변수입니다.
     x_doublekey = 0  # X축 이동시 2개이상의 키가 눌렸는지 확인하기 위한 변수입니다.
     y_doublekey = 0  # Y축 이동시 2개이상의 키가 눌렸는지 확인하기 위한 변수입니다.
+    # 총알 발사를 위한 변수 선언
+    attack = 0  # 1이면 총알을 발사하고 0이면 멈춥니다.
+    attack_count = 5  # 총알이 나가는 주기를 설정합니다.
 
     # 배경화면 설정
     BG_X = 0
@@ -86,11 +90,9 @@ def runGame():
                         y_switch = 1
                     else:
                         y_switch = 1
-                # Z키를 누르면 총알 위치 설정
-                elif(event.key==pygame.K_z):
-                    bulletX=x
-                    bulletY=y-50
-                    bullet_xy.append([bulletX,bulletY])
+                # Z키를 누르면 총알 발사
+                elif event.key == pygame.K_z:
+                    attack = 1
                 # 일시 정지 5초
                 elif(event.key==pygame.K_SPACE):
                     sleep(5)
@@ -136,6 +138,9 @@ def runGame():
                             x_doublekey = 0
                     else:
                         x_switch = 0
+                # z키를 떼면 총알 발사를 중지합니다.
+                if event.key == pygame.K_z:
+                    attack = 0
 
             if y_switch == 0:  # 스위치가 0이면
                 y_change = 0  # 멈춰있고
@@ -156,6 +161,16 @@ def runGame():
 
         y += y_change
         x += x_change
+        # 총알 발사 함수입니다.
+        if attack == 1:
+            if attack_count == 5:
+                bulletX = x + unit_width / 2
+                bulletY = y + unit_height
+                bullet_xy.append([bulletX, bulletY])
+                attack_count = 0  # 총알을 발사했으면 카운트를 0으로 만들고
+            else:
+                attack_count += 1  # 카운트가 목표 수치까지 도달하는데 걸리는 시간이 총알 주기가 됩니다.
+
         # 비행기가 배경화면을 넘어가지 않게 하는 if문
         if (x < 0 or x > width - 67):
             x -= changeX
