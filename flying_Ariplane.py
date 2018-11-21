@@ -4,9 +4,9 @@ from time import sleep
 
 # 배경색과 창크기 설정
 BGcolor = (255,255,255)
-width = 600
-height = 840
-BG_height = -840
+width = 512
+height = 900
+BG_height = 900
 unit_width=67
 unit_height=67
 enemy_width=108
@@ -31,7 +31,7 @@ def runGame():
     changeX = 0
     # 배경화면 설정
     BG_X = 0
-    BG_X2 = BG_height
+    BG_X2 = -BG_height
     # 적, 방해물 위치 지정
     enemy_x = random.randrange(0,width)
     enemy_y = -67
@@ -72,13 +72,13 @@ def runGame():
 
         # 게임판을 흰색으로 채우기
         gamepad.fill(BGcolor)
-        BG_X += 2
-        BG_X2 += 2
+        BG_X += 5
+        BG_X2 += 5
 
-        if BG_X == -BG_height:
-            BG_X = BG_height
-        if BG_X2 == -BG_height:
-            BG_X2 = BG_height
+        if BG_X == BG_height:
+            BG_X = -BG_height
+        if BG_X2 == BG_height:
+            BG_X2 = -BG_height
 
         # 배경화면 호출함.
         into_Game(BG,0,BG_X)
@@ -161,7 +161,7 @@ def initGame():
     #비행기 이미지 로딩
     unit=pygame.image.load('images/aircraft.png')
     # 배경화면 로딩
-    BG = pygame.image.load('images/background.png')
+    BG = pygame.image.load('images/bg2.png')
     BG1 = BG.copy()
     # 적 이미지 및 방해물 추가
     enemy=pygame.image.load('images/bat.png')
