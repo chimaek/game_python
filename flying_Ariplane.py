@@ -30,12 +30,12 @@ def runGame():
     # 비행기 좌표를 변경할 변수 선언
     changeX = 0
     changeY = 0
-    x_switch = 0
-    y_switch = 0
-    x_save = 0
-    y_save = 0
-    x_doublekey = 0
-    y_doublekey = 0
+    x_switch = 0  # 0이면 정지, 1이면 좌측, 2면 우측으로 이동하도록 하기위한 변수입니다.
+    y_switch = 0  # 0이면 정지, 1이면 위, 2면 아래로 이동하도록 하기위한 변수입니다.
+    x_save = 0  # 좌,우키 2개가 눌렸을시 먼저 누른 키를 기억하기 위한 변수입니다.
+    y_save = 0  # 상,하키 2개가 눌렸을시 먼저 누른 키를 기억하기 위한 변수입니다.
+    x_doublekey = 0  # X축 이동시 2개이상의 키가 눌렸는지 확인하기 위한 변수입니다.
+    y_doublekey = 0  # Y축 이동시 2개이상의 키가 눌렸는지 확인하기 위한 변수입니다.
 
     # 배경화면 설정
     BG_X = 0
@@ -59,12 +59,12 @@ def runGame():
             # 키입력시 x좌표를 업데이트함
             if(event.type == pygame.KEYDOWN):
                 if(event.key == pygame.K_LEFT):
-                    if x_switch == 2:
-                        x_doublekey = 1
-                        x_save = x_switch
-                        x_switch = 1
+                    if x_switch == 2:  # 현재 우측으로 움직이고 있을때 왼쪽 키를 누른다면
+                        x_doublekey = 1  # 좌, 우키 2개 누른거고
+                        x_save = x_switch  # 우측으로 먼저 움직이고 있었음을 기억한 후
+                        x_switch = 1  # 좌측으로 움직이도록 합니다.
                     else:
-                        x_switch = 1
+                        x_switch = 1  # 아니면 그냥 왼쪽으로 움직이면 됩니다.
                 elif(event.key == pygame.K_RIGHT):
                     if x_switch == 1:
                         x_doublekey = 1
@@ -73,10 +73,10 @@ def runGame():
                     else:
                         x_switch = 2
                 elif event.key == pygame.K_DOWN:
-                    if y_switch == 1:
-                        y_doublekey = 1
-                        y_save = y_switch
-                        y_switch = 2
+                    if y_switch == 1:  # 위로 움직이고 있을때 아래키를 누른다면
+                        y_doublekey = 1  # 위, 아래키 2개 누른거고
+                        y_save = y_switch  # 위쪽으로 먼저 움직이고 있었음을 기억한 후
+                        y_switch = 2  # 아래로 움직이도록 합니다.
                     else:
                         y_switch = 2
                 elif event.key == pygame.K_UP:
@@ -94,17 +94,18 @@ def runGame():
                 # 일시 정지 5초
                 elif(event.key==pygame.K_SPACE):
                     sleep(5)
+            # 방향키를 동시에 눌렀을때 버벅임을 없애느라 코드가 길어졌습니다
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_UP:
-                    if y_doublekey == 1:
-                        if y_save == 2:
-                            y_switch = 2
-                            y_doublekey = 0
-                        elif y_save == 1:
-                            y_switch = 2
-                            y_doublekey = 0
+                    if y_doublekey == 1:  # 아래, 위키 2개 눌려있는상황에서 위 키를 뗐을때
+                        if y_save == 2:  # 먼저 눌린 키가 아래방향이면
+                            y_switch = 2  # 아래로 움직이게 만듭니다.
+                            y_doublekey = 0  # 그리고 키가 2개 눌리지 않았음을 표시합니다.
+                        elif y_save == 1:  # 먼저 눌린키가 위 키면
+                            y_switch = 2  # 아래키는 눌린 상태이니 아래로 움직이게 만들고
+                            y_doublekey = 0  # 키가 2개 눌리지 않았았음을 표시합니다.
                     else:
-                        y_switch = 0
+                        y_switch = 0  # 키가 2개 눌린게 아닌경우 그냥 멈추면 됩니다.
                 if event.key == pygame.K_DOWN:
                     if y_doublekey == 1:
                         if y_save == 2:
@@ -116,15 +117,15 @@ def runGame():
                     else:
                         y_switch = 0
                 if event.key == pygame.K_LEFT:
-                    if x_doublekey == 1:
-                        if x_save == 2:
-                            x_switch = 2
-                            x_doublekey = 0
-                        elif x_save == 1:
-                            x_switch = 2
-                            x_doublekey = 0
+                    if x_doublekey == 1:  # 좌, 우키 2개 눌렸을때
+                        if x_save == 2:  # 먼저 눌린 키가 우측 키라면
+                            x_switch = 2  # 우측으로 움직이게 만들고
+                            x_doublekey = 0  # 더블키를 초기화
+                        elif x_save == 1:  # 먼저 눌린 키가 좌측 키라면
+                            x_switch = 2  # 우측으로 움직이게 만들고
+                            x_doublekey = 0  # 더블키를 초기화
                     else:
-                        x_switch = 0
+                        x_switch = 0  # 키 2개 눌린게 아니면 그냥 멈추면 됩니다.
                 if event.key == pygame.K_RIGHT:
                     if x_doublekey == 1:
                         if x_save == 2:
@@ -136,22 +137,22 @@ def runGame():
                     else:
                         x_switch = 0
 
-            if y_switch == 0:
-                y_change = 0
-            elif y_switch == 1:
-                y_change = -5
-            elif y_switch == 2:
-                y_change = 5
+            if y_switch == 0:  # 스위치가 0이면
+                y_change = 0  # 멈춰있고
+            elif y_switch == 1:  # 스위치가 1이면
+                y_change = -5  # 5만큼 위로
+            elif y_switch == 2:  # 스위치가 2면
+                y_change = 5  # 5만큼 아래로
 
             if x_switch == 0:
                 x_change = 0
                 unit = pygame.image.load('images/test_player.png')
             elif x_switch == 1:
                 x_change = -5
-                unit = pygame.image.load('images/test_player_left.png')
+                unit = pygame.image.load('images/test_player_left.png')  # 좌측으로 움직일때 이미지
             elif x_switch == 2:
                 x_change = 5
-                unit = pygame.image.load('images/test_player_right.png')
+                unit = pygame.image.load('images/test_player_right.png')  # 우측으로 움직일때 이미지
 
         y += y_change
         x += x_change
