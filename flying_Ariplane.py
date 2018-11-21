@@ -18,10 +18,11 @@ def into_Game(obj,x,y):
 
 def runGame():
     global gamepad,clock,unit,BG,BG1
-    global enemy,fires,bullet,boom
+    global enemy,fires,bullet,boom,effect
 
     is_enemy_dead=False
     boom_count=0
+    effect_count = 0
 
     bullet_xy=[]
     # 비행기 좌표설정
@@ -40,6 +41,9 @@ def runGame():
     # 총알 발사를 위한 변수 선언
     attack = 0  # 1이면 총알을 발사하고 0이면 멈춥니다.
     attack_count = 5  # 총알이 나가는 주기를 설정합니다.
+    # 적 hp를 생성하기 위한 변수입니다.
+    enemy_hp = 3
+    enemy_hpc = 0
 
     # 배경화면 설정
     BG_X = 0
@@ -172,8 +176,17 @@ def runGame():
                 attack_count += 1  # 카운트가 목표 수치까지 도달하는데 걸리는 시간이 총알 주기가 됩니다.
 
         # 비행기가 배경화면을 넘어가지 않게 하는 if문
-        if (x < 0 or x > width - 67):
-            x -= changeX
+        y += y_change
+        if y < -30:
+            y = -30
+        elif y > height - unit_height - 70:
+            y = height - unit_height - 70
+
+        x += x_change
+        if x < -30:
+            x = -30
+        elif x > width - unit_width:
+            x = width - unit_width
 
         # 게임판을 흰색으로 채우기
         gamepad.fill(BGcolor)
@@ -194,6 +207,7 @@ def runGame():
         if enemy_y>=height:
             enemy_x = random.randrange(0,width-108)
             enemy_y = -67
+            enemy_hp = 3
 
         # 방해물이 없다면 방해물이 나오는 속도를 조절하는 함수
         if fire == None:
@@ -214,19 +228,30 @@ def runGame():
                 # 총알이 적에 명중
                 if positon[1]<enemy_y:
                     if positon[0] > enemy_x and positon[0] < enemy_x + enemy_width:
+                        enemy_hpc = 1
+                        into_Game(effect, enemy_x-40, enemy_y-30)
                         bullet_xy.remove(positon)
-                        is_enemy_dead=True
+                        boom_count += 1
+                        if boom_count > 8:
+                            boom_count = 0
+                        if enemy_hp == 0:  # hp가 0이되면
+                            is_enemy_dead=True  # 적을 사망처리하고
+                            enemy_hp = 3  # hp를 초기화 시켜줍니다.
                 if positon[1] <= -50:
                     try:
                         bullet_xy.remove(positon)
                     except:
                         pass
+        #  적 hp를 1씩 감소시키는 과정입니다
+        if enemy_hpc == 1:
+            enemy_hp -= 1
+            enemy_hpc = 0
         if not is_enemy_dead:
             into_Game(enemy,enemy_x,enemy_y)
         else:
             into_Game(boom,enemy_x,enemy_y)
             boom_count += 1
-            if boom_count > 5:
+            if boom_count > 10:
                 boom_count = 0
                 enemy_x = width
                 enemy_y = random.randrange(0,height-width)
@@ -255,7 +280,7 @@ def runGame():
 def initGame():
     #전역 변수로 설정합니다.
     global gamepad,clock,unit,BG,BG1
-    global enemy,fires,bullet,boom
+    global enemy,fires,bullet,boom,effect
     fires=[]
     #파이게임 라이브러리를 초기화함 꼭 호출해줘야 합니다.
     pygame.init()
@@ -269,7 +294,7 @@ def initGame():
     BG = pygame.image.load('images/bg.png')
     BG1 = BG.copy()
     # 적 이미지 및 방해물 추가
-    enemy=pygame.image.load('images/enermy.png')
+    enemy=pygame.image.load('images/enemy.png')
     fires.append(pygame.image.load('images/fireball.png'))
     fires.append(pygame.image.load('images/fireball2.png'))
     # 불덩어리 2개와 None객체 5개 넣을 리스트
@@ -279,6 +304,7 @@ def initGame():
     bullet=pygame.image.load('images/bullet.png')
     # 폭발이미지 추가
     boom=pygame.image.load('images/boom.png')
+    effect = pygame.image.load('images/effect.png')
     # 초당 프레임을 위한 변수 생성
     clock = pygame.time.Clock()
     # runGame 함수 호출
