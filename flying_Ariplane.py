@@ -7,10 +7,36 @@ BGcolor = (255,255,255)
 width = 512
 height = 900
 BG_height = 900
-unit_width=120
-unit_height=55
-enemy_width=71
-enemy_height=91
+unit_width=86
+unit_height=79
+enemy_width=67
+enemy_height=89
+fireball1_width = 61
+fireball1_height = 140
+fireball2_width = 59
+fireball2_height = 86
+
+# 무슨함수일까요
+def textObj(text, font):
+    textSurface = font.render(text,True,RED)
+    return textSurface, textSurface.get_rect()
+
+def dispMessage(text):
+    global gamepad
+
+    largeText = pygame.font.Font('freesansbold.ttf',115)
+    TextSurf, TextRect = textObj(text, largeText)
+    TextRect.center = ((width/2),(height/2))
+    gamepad.blit(TextSurf,TextRect)
+    pygame.display.update()
+    sleep(2)
+    runGame()
+
+def crash():
+    global gamepad
+    dispMessage('Crashed!')
+
+
 # 게임에 집어넣을 객체를 만드는 함수
 def into_Game(obj,x,y):
     global gamepad
@@ -168,8 +194,8 @@ def runGame():
         # 총알 발사 함수입니다.
         if attack == 1:
             if attack_count == 5:
-                bulletX = x + unit_width / 2
-                bulletY = y + unit_height
+                bulletX = x + (unit_width / 2)-9
+                bulletY = y
                 bullet_xy.append([bulletX, bulletY])
                 attack_count = 0  # 총알을 발사했으면 카운트를 0으로 만들고
             else:
@@ -177,14 +203,14 @@ def runGame():
 
         # 비행기가 배경화면을 넘어가지 않게 하는 if문
         y += y_change
-        if y < -30:
-            y = -30
-        elif y > height - unit_height - 70:
-            y = height - unit_height - 70
+        if y < 0:
+            y = 0
+        elif y > height - unit_height:
+            y = height - unit_height
 
         x += x_change
-        if x < -30:
-            x = -30
+        if x < 0:
+            x = 0
         elif x > width - unit_width:
             x = width - unit_width
 
@@ -229,8 +255,8 @@ def runGame():
                 if positon[1]<enemy_y:
                     if positon[0] > enemy_x and positon[0] < enemy_x + enemy_width:
                         enemy_hpc = 1
-                        into_Game(effect, enemy_x-40, enemy_y-30)
-                        if is_enemy_dead == False:
+                        into_Game(effect, enemy_x, enemy_y)
+                        if is_enemy_dead == False:  # 적이 파괴되면 총알을 막지 않습니다.
                             bullet_xy.remove(positon)
                             boom_count += 1
                             if boom_count > 8:
@@ -247,6 +273,8 @@ def runGame():
         if enemy_hpc == 1:
             enemy_hp -= 1
             enemy_hpc = 0
+
+        # 적이 폭발하는 과정입니다.
         if not is_enemy_dead:
             into_Game(enemy,enemy_x,enemy_y)
         else:
@@ -257,11 +285,36 @@ def runGame():
                 enemy_x = width
                 enemy_y = random.randrange(0,height-width)
                 is_enemy_dead=False
+        # 적과 기체가 충돌했는지 확인하고 충돌이면 게임오버
+        if (y < enemy_y + enemy_height and y > enemy_y)or(y+unit_height>enemy_y and y+unit_height<enemy_y+enemy_height):
+            if (x<enemy_x+enemy_width and x>enemy_x):
+                crash()
+            elif (x+unit_width > enemy_x and x+unit_width<enemy_x+enemy_width):
+                crash()
+            elif (enemy_x > x and enemy_x+enemy_width < x + unit_width):
+                crash()
+        # 적과 파이어볼이 충돌했는지 확인하고 충돌이면 게임오버
+        if fire[1]!=None:
+            if fire[0] == 0:
+                fireball_width = fireball1_width
+                fireball_height = fireball1_height
+            elif fire[0] == 1:
+                fireball_width = fireball2_width
+                fireball_height = fireball2_height
+
+            if (y < fire_y + fireball_height and y > fire_y) or (
+                    y + unit_height > fire_y and y + unit_height < fire_y + fireball_height):
+                if (x < fire_x + fireball_width and x > fire_x):
+                    crash()
+                elif (x + unit_width > fire_x and x + unit_width < fire_x + fireball_width):
+                    crash()
+                elif (fire_x > x and fire_x + fireball_width < x + unit_width):
+                    crash()
 
         # 적과 방해물 호출
         into_Game(enemy,enemy_x,enemy_y)
-        if fire != None:
-            into_Game(fire,fire_x,fire_y)
+        if fire[1] != None:
+            into_Game(fire[1],fire_x,fire_y)
 
         if len(bullet_xy)!=0:
             for bx,by in bullet_xy:
@@ -296,11 +349,11 @@ def initGame():
     BG1 = BG.copy()
     # 적 이미지 및 방해물 추가
     enemy=pygame.image.load('images/enemy.png')
-    fires.append(pygame.image.load('images/fireball.png'))
-    fires.append(pygame.image.load('images/fireball2.png'))
+    fires.append((0,pygame.image.load('images/fireball.png')))
+    fires.append((1,pygame.image.load('images/fireball2.png')))
     # 불덩어리 2개와 None객체 5개 넣을 리스트
     for i in range(5):
-        fires.append(None)
+        fires.append((i+2,None))
     # 총알이미지 추가
     bullet=pygame.image.load('images/bullet.png')
     # 폭발이미지 추가
