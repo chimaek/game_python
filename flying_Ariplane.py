@@ -68,7 +68,7 @@ def runGame():
     attack = 0  # 1이면 총알을 발사하고 0이면 멈춥니다.
     attack_count = 5  # 총알이 나가는 주기를 설정합니다.
     # 적 hp를 생성하기 위한 변수입니다.
-    enemy_hp = 3
+    enemy_hp = 2
     enemy_hpc = 0
 
     # 배경화면 설정
@@ -233,7 +233,7 @@ def runGame():
         if enemy_y>=height:
             enemy_x = random.randrange(0,width-108)
             enemy_y = -67
-            enemy_hp = 3
+            enemy_hp = 2
 
         # 방해물이 없다면 방해물이 나오는 속도를 조절하는 함수
         if fire == None:
@@ -258,12 +258,12 @@ def runGame():
                         into_Game(effect, enemy_x, enemy_y)
                         if is_enemy_dead == False:  # 적이 파괴되면 총알을 막지 않습니다.
                             bullet_xy.remove(positon)
-                            boom_count += 1
-                            if boom_count > 8:
-                                boom_count = 0
+                            effect_count += 1
+                            if effect_count > 5:
+                                effect_count = 0
                             if enemy_hp == 0:  # hp가 0이되면
                                 is_enemy_dead=True  # 적을 사망처리하고
-                                enemy_hp = 3  # hp를 초기화 시켜줍니다.
+                                enemy_hp = 2  # hp를 초기화 시켜줍니다.
                 if positon[1] <= -50:
                     try:
                         bullet_xy.remove(positon)
@@ -280,19 +280,20 @@ def runGame():
         else:
             into_Game(boom,enemy_x,enemy_y)
             boom_count += 1
-            if boom_count > 10:
+            if boom_count > 20:
                 boom_count = 0
                 enemy_x = width
                 enemy_y = random.randrange(0,height-width)
                 is_enemy_dead=False
         # 적과 기체가 충돌했는지 확인하고 충돌이면 게임오버
-        if (y < enemy_y + enemy_height and y > enemy_y)or(y+unit_height>enemy_y and y+unit_height<enemy_y+enemy_height):
-            if (x<enemy_x+enemy_width and x>enemy_x):
-                crash()
-            elif (x+unit_width > enemy_x and x+unit_width<enemy_x+enemy_width):
-                crash()
-            elif (enemy_x > x and enemy_x+enemy_width < x + unit_width):
-                crash()
+        if is_enemy_dead==False:  # 적 파괴시 잔해에 죽지 않도록 조치
+            if (y < enemy_y + enemy_height and y > enemy_y)or(y+unit_height>enemy_y and y+unit_height<enemy_y+enemy_height):
+                if (x<enemy_x+enemy_width and x>enemy_x):
+                    crash()
+                elif (x+unit_width > enemy_x and x+unit_width<enemy_x+enemy_width):
+                    crash()
+                elif (enemy_x > x and enemy_x+enemy_width < x + unit_width):
+                    crash()
         # 적과 파이어볼이 충돌했는지 확인하고 충돌이면 게임오버
         if fire[1]!=None:
             if fire[0] == 0:
