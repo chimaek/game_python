@@ -181,13 +181,13 @@ def runGame():
 
             if x_switch == 0:
                 x_change = 0
-                unit = pygame.image.load('images/test_player.png')
+                unit = pygame.image.load('images/c.png')
             elif x_switch == 1:
                 x_change = -5
-                unit = pygame.image.load('images/test_player_left.png')  # 좌측으로 움직일때 이미지
+                unit = pygame.image.load('images/c_l.png')  # 좌측으로 움직일때 이미지
             elif x_switch == 2:
                 x_change = 5
-                unit = pygame.image.load('images/test_player_right.png')  # 우측으로 움직일때 이미지
+                unit = pygame.image.load('images/c_r.png')  # 우측으로 움직일때 이미지
 
         y += y_change
         x += x_change
@@ -344,7 +344,7 @@ def initGame():
     # 게임 제목 설정
     pygame.display.set_caption("떴다 떴다 비행기")
     #비행기 이미지 로딩
-    unit=pygame.image.load('images/test_player.png')
+    unit=pygame.image.load('images/c.png')
     # 배경화면 로딩
     BG = pygame.image.load('images/bg.png')
     BG1 = BG.copy()
