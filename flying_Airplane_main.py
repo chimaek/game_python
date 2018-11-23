@@ -5,8 +5,8 @@ from time import sleep
 # 배경색과 창크기 설정
 BGcolor = (255,255,255)
 width = 512
-height = 900
-BG_height = 900
+height = 700
+BG_height = 700
 unit_width=86
 unit_height=79
 enemy_width=67
@@ -194,7 +194,7 @@ def runGame():
         # 총알 발사 함수입니다.
         if attack == 1:
             if attack_count == 5:
-                bulletX = x + (unit_width / 2)-9
+                bulletX = x + (unit_width / 2) - 9
                 bulletY = y
                 bullet_xy.append([bulletX, bulletY])
                 attack_count = 0  # 총알을 발사했으면 카운트를 0으로 만들고
@@ -237,10 +237,10 @@ def runGame():
 
         # 방해물이 없다면 방해물이 나오는 속도를 조절하는 함수
         if fire == None:
-            fire_y += 30
+            fire_y += 50
         else:
-            fire_y += 15
-        if fire_y >=height:
+            fire_y += 10
+        if fire_y >= height:
             fire_x = random.randrange(0,width-61)
             fire_y = -140
             random.shuffle(fires)
