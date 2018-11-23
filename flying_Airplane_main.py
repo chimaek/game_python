@@ -75,7 +75,7 @@ def runGame():
     BG_X = 0
     BG_X2 = -BG_height
     # 적, 방해물 위치 지정
-    enemy_x = random.randrange(0,width)
+    enemy_x = random.randrange(0,width-67)
     enemy_y = -67
     fire_x = random.randrange(0,width)
     fire_y = -140
