@@ -15,7 +15,7 @@
 
 ### How to play
 
-→←↑↓ : right, left, up, down
+→←↑↓ : right, left, up, down  
 
 z: attack
 
