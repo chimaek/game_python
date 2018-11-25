@@ -13,8 +13,10 @@
 
 - 
 
-###How to play(조작법)
+### How to play
+
 →←↑↓ : right, left, up, down
+
 z: attack
 
 ### pyGame License
