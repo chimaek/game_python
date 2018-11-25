@@ -16,14 +16,25 @@ fireball1_height = 140
 fireball2_width = 59
 fireball2_height = 86
 
+#스코어 표시
+def Score(count):
+    global gamepad
+    font=pygame.font.SysFont(None,25)
+    text=font.render("pass"+str(count),True,BGcolor)
+    gamepad.blit(text,(0,0))
+
+#게임 오버 표시
+def gameOver():
+    global gamepad
+    dispMessage('GAME OVER')
 # 텍스트를 출력하는 함수입니다.
 def textObj(text, font):
     textSurface = font.render(text,True,[255,0,0])
     return textSurface, textSurface.get_rect()
+
 # 텍스트의 폰트와 크기등을 결정하고 2초 슬립시킵니다
 def dispMessage(text):
     global gamepad
-
     largeText = pygame.font.Font('freesansbold.ttf',115)
     TextSurf, TextRect = textObj(text, largeText)
     TextRect.center = ((width/2),(height/2))
@@ -49,7 +60,8 @@ def runGame():
     is_enemy_dead=False
     boom_count=0
     effect_count = 0
-
+    # 적이 파괴되지 않고 지나간 횟수 카운트하는 변수
+    enemy_passed=0
     bullet_xy=[]
     # 비행기 좌표설정
     x = width*0.37
@@ -227,10 +239,19 @@ def runGame():
         # 배경화면 호출함.
         into_Game(BG,0,BG_X)
         into_Game(BG1,0,BG_X2)
+        
+        # 적이 지나간 횟수 표시
+        Score(enemy_passed)
+        
+        # 적이 2번 이상 지나가면 게임오버 표시
+        if enemy_passed > 2:
+            gameOver()
 
         # 적이 화면을 넘어가면 재생성하는 if문
         enemy_y += 7
-        if enemy_y>=height:
+        if enemy_y >= height:
+            # 적이 파괴되지 않고 지나가면 카운트 1씩 증가
+            enemy_passed += 1
             enemy_x = random.randrange(0,width-108)
             enemy_y = -67
             enemy_hp = 2

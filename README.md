@@ -7,7 +7,7 @@
 - 컴퓨터공학과 2015108215 황성준
 - 컴퓨터공학과 2015108191 박세환
 
-### 팀 프로젝트 명: 떴다 떴다 비행기 
+팀 프로젝트 명: 떴다 떴다 비행기 
 
 - 
 
@@ -21,9 +21,9 @@
 >
 > The programs in the "examples" subdirectory are in the public domain.
 
-**Project License**
+### Project License
 
-> ```
+> 
 > MIT License
 > 
 > Copyright (c) 2018 AND-GATE
