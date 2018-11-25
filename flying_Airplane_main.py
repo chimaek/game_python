@@ -7,10 +7,10 @@ BGcolor = (255,255,255)
 width = 512
 height = 700
 BG_height = 700
-unit_width=86
-unit_height=79
-enemy_width=67
-enemy_height=89
+unit_width= 86
+unit_height= 79
+enemy_width= 67
+enemy_height= 89
 fireball1_width = 61
 fireball1_height = 140
 fireball2_width = 59
@@ -35,7 +35,7 @@ def textObj(text, font):
 # 텍스트의 폰트와 크기등을 결정하고 2초 슬립시킵니다
 def dispMessage(text):
     global gamepad
-    largeText = pygame.font.Font('freesansbold.ttf',115)
+    largeText = pygame.font.Font('freesansbold.ttf',80)
     TextSurf, TextRect = textObj(text, largeText)
     TextRect.center = ((width/2),(height/2))
     gamepad.blit(TextSurf,TextRect)
