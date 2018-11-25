@@ -1,6 +1,6 @@
 # **오픈소스개발 방법론**
 
-![](C:\Users\pipir\Desktop\AC_[20181125-151255].gif)
+![](game_python/game.gif)
 
 ### 팀 이름: AND-GATE
 
