@@ -20,9 +20,8 @@
 > This basically means you can use pygame in any project you want, but if you make any changes or additions to pygame itself, those must be released with a compatible license. (preferably submitted back to the pygame project). Closed source and commercial games are fine.
 >
 > The programs in the "examples" subdirectory are in the public domain.
-```
+
 |TravisBuild|_ |AppVeyorBuild|_ |LaunchpadBuild|_ |PyPiVersion|_ |PyPiLicense|_ |Python2| |Python3| |GithubCommits|_
-```
 
 ### Project License
 
@@ -49,7 +48,6 @@
 > OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 > SOFTWARE.
 
-```
 .. |TravisBuild| image:: https://travis-ci.org/pygame/pygame.svg?branch=master
 .. _TravisBuild: https://travis-ci.org/pygame/pygame
 
@@ -70,4 +68,3 @@
 
 .. |GithubCommits| image:: https://img.shields.io/github/commits-since/pygame/pygame/1.9.4.svg
 .. _GithubCommits: https://github.com/pygame/pygame/compare/1.9.4...master
-```
