@@ -1,6 +1,6 @@
 # **오픈소스개발 방법론**
 
-![](game_python/game.gif)
+![](https://github.com/Chimaek/game_python/blob/master/game.gif)
 
 ### 팀 이름: AND-GATE
 
