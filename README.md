@@ -21,7 +21,6 @@
 >
 > The programs in the "examples" subdirectory are in the public domain.
 
-|TravisBuild|_ |AppVeyorBuild|_ |LaunchpadBuild|_ |PyPiVersion|_ |PyPiLicense|_ |Python2| |Python3| |GithubCommits|_
 
 ### Project License
 
@@ -47,24 +46,3 @@
 > LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 > OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 > SOFTWARE.
-
-.. |TravisBuild| image:: https://travis-ci.org/pygame/pygame.svg?branch=master
-.. _TravisBuild: https://travis-ci.org/pygame/pygame
-
-.. |AppVeyorBuild| image:: https://ci.appveyor.com/api/projects/status/x4074ybuobsh4myx?svg=true
-.. _AppVeyorBuild: https://ci.appveyor.com/project/pygame/pygame
-
-.. |LaunchpadBuild| image:: https://www.pygame.org/images/launchpad_build.svg?svg=true
-.. _LaunchpadBuild: https://code.launchpad.net/~pygame/+recipe/pygame-daily
-
-.. |PyPiVersion| image:: https://img.shields.io/pypi/v/pygame.svg?v=1
-.. _PyPiVersion: https://pypi.python.org/pypi/pygame
-
-.. |PyPiLicense| image:: https://img.shields.io/pypi/l/pygame.svg?v=1
-.. _PyPiLicense: https://pypi.python.org/pypi/pygame
-
-.. |Python2| image:: https://img.shields.io/badge/python-2-blue.svg?v=1
-.. |Python3| image:: https://img.shields.io/badge/python-3-blue.svg?v=1
-
-.. |GithubCommits| image:: https://img.shields.io/github/commits-since/pygame/pygame/1.9.4.svg
-.. _GithubCommits: https://github.com/pygame/pygame/compare/1.9.4...master
