@@ -20,7 +20,7 @@
 
 - 사용오픈소스
 
-  pytGame  
+  pyGame  
 
 - 사용언어
 
