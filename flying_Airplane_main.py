@@ -16,6 +16,7 @@ fireball1_height = 140
 fireball2_width = 59
 fireball2_height = 86
 
+
 #스코어 표시
 def Score(count):
     global gamepad
@@ -102,6 +103,7 @@ def runGame():
     fire_y = -140
     random.shuffle(fires)
     fire = fires[0]
+    PrintScore = False # 적 파괴시 점수 출력
 
     #플래그 설정
     crashe=False
@@ -295,14 +297,28 @@ def runGame():
                             if effect_count > 5:
                                 effect_count = 0
                             if enemy_hp == 0:  # hp가 0이되면
-                                enemy_kill += 1 #킬점수 1점 추가하고
+                                enemy_kill += (700-y)/2  # 킬점수+가산점 추가하고
+                                KillPlus = (700-y)/2
                                 is_enemy_dead=True  # 적을 사망처리
+                                PrintScore = True  # 점수 출력
 
                 if positon[1] <= -50:
                     try:
                         bullet_xy.remove(positon)
                     except:
                         pass
+
+        # 적 파괴시 가산점 점수 표시
+        if PrintScore == True:
+            def plusScore(count):
+                global gamepad
+                font = pygame.font.SysFont(None, 30)
+                text = font.render("+ " + str(count), True, [0,0,255])
+                gamepad.blit(text, (enemy_x, enemy_y + 80))
+
+            plusScore(KillPlus)
+
+
         #  적 hp를 1씩 감소시키는 과정입니다
         if enemy_hpc == 1:
             enemy_hp -= 1
@@ -320,6 +336,7 @@ def runGame():
                 enemy_y = -67
                 enemy_hp = 2  # hp를 초기화 시켜줍니다.
                 is_enemy_dead=False
+                PrintScore = False  #점수출력도 끝!
         # 적과 기체가 충돌했는지 확인하고 충돌이면 게임오버
         if is_enemy_dead==False:  # 적 파괴시 잔해에 죽지 않도록 조치
             if (y+19 < enemy_y + enemy_height and y+19 > enemy_y)or(y+unit_height-19>enemy_y and y+unit_height-19<enemy_y+enemy_height):
