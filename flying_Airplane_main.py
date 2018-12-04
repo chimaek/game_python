@@ -308,10 +308,10 @@ def runGame():
                 is_enemy_dead=False
         # 적과 기체가 충돌했는지 확인하고 충돌이면 게임오버
         if is_enemy_dead==False:  # 적 파괴시 잔해에 죽지 않도록 조치
-            if (y < enemy_y + enemy_height and y > enemy_y)or(y+unit_height>enemy_y and y+unit_height<enemy_y+enemy_height):
-                if (x<enemy_x+enemy_width and x>enemy_x):
+            if (y+19 < enemy_y + enemy_height and y+19 > enemy_y)or(y+unit_height-19>enemy_y and y+unit_height-19<enemy_y+enemy_height):
+                if (x+13<enemy_x+enemy_width and x+13>enemy_x):
                     crash()
-                elif (x+unit_width > enemy_x and x+unit_width<enemy_x+enemy_width):
+                elif (x+unit_width-13 > enemy_x and x+unit_width-13<enemy_x+enemy_width):
                     crash()
                 elif (enemy_x > x and enemy_x+enemy_width < x + unit_width):
                     crash()
