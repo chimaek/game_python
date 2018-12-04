@@ -248,7 +248,7 @@ def runGame():
             gameOver()
 
         # 적이 화면을 넘어가면 재생성하는 if문
-        enemy_y += 7
+        enemy_y += 3
         if enemy_y >= height:
             # 적이 파괴되지 않고 지나가면 카운트 1씩 증가
             enemy_passed += 1
@@ -283,8 +283,8 @@ def runGame():
                             if effect_count > 5:
                                 effect_count = 0
                             if enemy_hp == 0:  # hp가 0이되면
-                                is_enemy_dead=True  # 적을 사망처리하고
-                                enemy_hp = 2  # hp를 초기화 시켜줍니다.
+                                is_enemy_dead=True  # 적을 사망처리
+
                 if positon[1] <= -50:
                     try:
                         bullet_xy.remove(positon)
@@ -305,6 +305,7 @@ def runGame():
                 boom_count = 0
                 enemy_x = random.randrange(0,width-108)
                 enemy_y = -67
+                enemy_hp = 2  # hp를 초기화 시켜줍니다.
                 is_enemy_dead=False
         # 적과 기체가 충돌했는지 확인하고 충돌이면 게임오버
         if is_enemy_dead==False:  # 적 파괴시 잔해에 죽지 않도록 조치
