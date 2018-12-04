@@ -303,8 +303,8 @@ def runGame():
             boom_count += 1
             if boom_count > 20:
                 boom_count = 0
-                enemy_x = width
-                enemy_y = random.randrange(0,height-width)
+                enemy_x = random.randrange(0,width-108)
+                enemy_y = -67
                 is_enemy_dead=False
         # 적과 기체가 충돌했는지 확인하고 충돌이면 게임오버
         if is_enemy_dead==False:  # 적 파괴시 잔해에 죽지 않도록 조치
