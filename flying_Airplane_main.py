@@ -215,7 +215,7 @@ def runGame():
         # 총알 발사 함수입니다.
         if attack == 1:
             if attack_count == 5:
-                bulletX = x + (unit_width / 2) - 9
+                bulletX = x + (unit_width / 2) - 18
                 bulletY = y
                 bullet_xy.append([bulletX, bulletY])
                 attack_count = 0  # 총알을 발사했으면 카운트를 0으로 만들고
