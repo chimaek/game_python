@@ -17,43 +17,50 @@ fireball2_width = 59
 fireball2_height = 86
 
 
-#스코어 표시
+#게임오버 카운트 표시
 def Score(count):
     global gamepad
     font=pygame.font.SysFont(None,25)
     text=font.render("pass : "+str(count),True,BGcolor)
     gamepad.blit(text,(0,15))
 
-#사냥점수 표시입니다.
+#킬점수 표시입니다.
 def killScore(count):
     global gamepad
     font = pygame.font.SysFont(None, 25)
     text = font.render("Score : " + str(count), True, BGcolor)
     gamepad.blit(text, (0, 0))
 
-#게임 오버 표시
+
+# 텍스트의 폰트와 크기등을 결정하고 2초 슬립시킵니다
+def dispMessage(text):
+    waiting = True
+    global gamepad
+    largeText = pygame.font.Font('freesansbold.ttf', 80)
+    TextSurf, TextRect = textObj(text, largeText)
+    TextRect.center = ((width / 2), (height / 2))
+    gamepad.blit(TextSurf, TextRect)
+    pygame.display.update()
+
+
+# 게임 오버 표시
 def gameOver():
     global gamepad
     dispMessage('GAME OVER')
+
+
+def crash():
+    global gamepad
+    dispMessage('Crashed!')
+    
 # 텍스트를 출력하는 함수입니다.
 def textObj(text, font):
     textSurface = font.render(text,True,[255,0,0])
     return textSurface, textSurface.get_rect()
 
-# 텍스트의 폰트와 크기등을 결정하고 2초 슬립시킵니다
-def dispMessage(text):
-    global gamepad
-    largeText = pygame.font.Font('freesansbold.ttf',80)
-    TextSurf, TextRect = textObj(text, largeText)
-    TextRect.center = ((width/2),(height/2))
-    gamepad.blit(TextSurf,TextRect)
-    pygame.display.update()
-    sleep(2)
-    runGame()
 
-def crash():
-    global gamepad
-    dispMessage('Crashed!')
+
+
 
 
 # 게임에 집어넣을 객체를 만드는 함수
@@ -104,6 +111,8 @@ def runGame():
     random.shuffle(fires)
     fire = fires[0]
     PrintScore = False # 적 파괴시 점수 출력
+    y_change = 0
+    x_change = 0
 
     #플래그 설정
     crashe=False
@@ -112,7 +121,7 @@ def runGame():
         for event in pygame.event.get():
             # 마우스로 창을 닫을경우 플래그를 설정하여 while문을 빠져나옵니다.
             if event.type == pygame.QUIT:
-                crashe=True
+                quit()
             # 키입력시 x좌표를 업데이트함
             if(event.type == pygame.KEYDOWN):
                 if(event.key == pygame.K_LEFT):
@@ -260,6 +269,7 @@ def runGame():
         # 적이 2번 이상 지나가면 게임오버 표시
         if enemy_passed > 2:
             gameOver()
+            break
 
         # 적이 화면을 넘어가면 재생성하는 if문
         enemy_y += 3
@@ -314,7 +324,7 @@ def runGame():
                 global gamepad
                 font = pygame.font.SysFont(None, 30)
                 text = font.render("+ " + str(count), True, [0,0,255])
-                gamepad.blit(text, (enemy_x, enemy_y + 80))
+                gamepad.blit(text, (enemy_x, enemy_y + 90))
 
             plusScore(KillPlus)
 
@@ -342,10 +352,13 @@ def runGame():
             if (y+19 < enemy_y + enemy_height and y+19 > enemy_y)or(y+unit_height-19>enemy_y and y+unit_height-19<enemy_y+enemy_height):
                 if (x+13<enemy_x+enemy_width and x+13>enemy_x):
                     crash()
+                    break
                 elif (x+unit_width-13 > enemy_x and x+unit_width-13<enemy_x+enemy_width):
                     crash()
+                    break
                 elif (enemy_x > x and enemy_x+enemy_width < x + unit_width):
                     crash()
+                    break
         # 적과 파이어볼이 충돌했는지 확인하고 충돌이면 게임오버
         if fire[1]!=None:
             if fire[0] == 0:
@@ -359,10 +372,14 @@ def runGame():
                     y + unit_height > fire_y and y + unit_height < fire_y + fireball_height):
                 if (x < fire_x + fireball_width and x > fire_x):
                     crash()
+                    break
                 elif (x + unit_width > fire_x and x + unit_width < fire_x + fireball_width):
                     crash()
+                    break
                 elif (fire_x > x and fire_x + fireball_width < x + unit_width):
                     crash()
+                    break
+
 
         # 적과 방해물 호출
         into_Game(enemy,enemy_x,enemy_y)
@@ -379,14 +396,31 @@ def runGame():
         pygame.display.update()
         #fps 60으로 설정합니다,
         clock.tick(60)
+
+
+    sleep(2)
+    GameOver()  # 죽어서 break로 for을 빠져나오면 2초 멈췄다가 게임오버화면을 출력합니다.
     # 초기화한 pygame종료합니다.
     pygame.quit()
     quit()
 
+def GameOver():
+    global GOBG
+    GReset = False
+    while GReset == False:  # 화면 안넘어가게(종료안되게)막아주는 장치입니다.
+        into_Game(GOBG, 0, 0)
+        pygame.display.update()    # 게임오버화면 호출함.
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:  # 마우스로 창 닫으면 꺼집니다.
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:  #  r버튼을 누르면 재시작합니다.
+                    runGame()
+
 #게임을 초기화 하고 시작하는 함수입니다.
 def initGame():
     #전역 변수로 설정합니다.
-    global gamepad,clock,unit,BG,BG1
+    global gamepad,clock,unit,BG,BG1,GOBG
     global enemy,fires,bullet,boom,effect
     fires=[]
     #파이게임 라이브러리를 초기화함 꼭 호출해줘야 합니다.
@@ -400,6 +434,7 @@ def initGame():
     # 배경화면 로딩
     BG = pygame.image.load('images/bg.png')
     BG1 = BG.copy()
+    GOBG = pygame.image.load('images/gobg.png')
     # 적 이미지 및 방해물 추가
     enemy=pygame.image.load('images/enemy.png')
     fires.append((0,pygame.image.load('images/fireball.png')))
