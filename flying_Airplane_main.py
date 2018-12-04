@@ -20,8 +20,15 @@ fireball2_height = 86
 def Score(count):
     global gamepad
     font=pygame.font.SysFont(None,25)
-    text=font.render("pass"+str(count),True,BGcolor)
-    gamepad.blit(text,(0,0))
+    text=font.render("pass : "+str(count),True,BGcolor)
+    gamepad.blit(text,(0,15))
+
+#사냥점수 표시입니다.
+def killScore(count):
+    global gamepad
+    font = pygame.font.SysFont(None, 25)
+    text = font.render("Score : " + str(count), True, BGcolor)
+    gamepad.blit(text, (0, 0))
 
 #게임 오버 표시
 def gameOver():
@@ -62,6 +69,8 @@ def runGame():
     effect_count = 0
     # 적이 파괴되지 않고 지나간 횟수 카운트하는 변수
     enemy_passed=0
+    # 킬 점수 카운트하는 변수입니다.
+    enemy_kill=0
     bullet_xy=[]
     # 비행기 좌표설정
     x = width*0.37
@@ -242,6 +251,9 @@ def runGame():
         
         # 적이 지나간 횟수 표시
         Score(enemy_passed)
+
+        # 킬스코어 표시
+        killScore(enemy_kill)
         
         # 적이 2번 이상 지나가면 게임오버 표시
         if enemy_passed > 2:
@@ -283,6 +295,7 @@ def runGame():
                             if effect_count > 5:
                                 effect_count = 0
                             if enemy_hp == 0:  # hp가 0이되면
+                                enemy_kill += 1 #킬점수 1점 추가하고
                                 is_enemy_dead=True  # 적을 사망처리
 
                 if positon[1] <= -50:
