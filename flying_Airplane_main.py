@@ -290,8 +290,8 @@ def runGame():
                 if positon[1]<enemy_y:
                     if positon[0] > enemy_x and positon[0] < enemy_x + enemy_width:
                         enemy_hpc = 1
-                        into_Game(effect, enemy_x, enemy_y)
                         if is_enemy_dead == False:  # 적이 파괴되면 총알을 막지 않습니다.
+                            into_Game(effect, enemy_x, enemy_y)
                             bullet_xy.remove(positon)
                             effect_count += 1
                             if effect_count > 5:
