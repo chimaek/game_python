@@ -16,6 +16,9 @@ fireball1_height = 140
 fireball2_width = 59
 fireball2_height = 86
 
+# 킬 점수 카운트하는 변수입니다.
+enemy_kill = 0
+
 
 #게임오버 카운트 표시
 def Score(count):
@@ -71,14 +74,13 @@ def into_Game(obj,x,y):
 def runGame():
     global gamepad,clock,unit,BG,BG1
     global enemy,fires,bullet,boom,effect
+    global enemy_kill
 
     is_enemy_dead=False
     boom_count=0
     effect_count = 0
     # 적이 파괴되지 않고 지나간 횟수 카운트하는 변수
     enemy_passed=0
-    # 킬 점수 카운트하는 변수입니다.
-    enemy_kill=0
     bullet_xy=[]
     # 비행기 좌표설정
     x = width*0.37
@@ -404,23 +406,49 @@ def runGame():
     pygame.quit()
     quit()
 
+def gameoverScore(count):  # 게임오버시 스코어를 표현하기위한 함수입니다.
+    global gamepad
+    font = pygame.font.SysFont(None, 40)
+    text = font.render(" " + str(count), True, [0,0,255])
+    gamepad.blit(text, (250, 361))
+
 def GameOver():
     global GOBG
     GReset = False
+
     while GReset == False:  # 화면 안넘어가게(종료안되게)막아주는 장치입니다.
         into_Game(GOBG, 0, 0)
+        gameoverScore(enemy_kill)
         pygame.display.update()    # 게임오버화면 호출함.
         for event in pygame.event.get():
+
             if event.type == pygame.QUIT:  # 마우스로 창 닫으면 꺼집니다.
                 quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:  #  r버튼을 누르면 재시작합니다.
                     runGame()
+                if event.key == pygame.K_RETURN:  #  엔터를 누르면 메인으로갑니다.
+                    MainTitle()
+
+
+
+def MainTitle():
+    global maintitle
+    GReset = False
+    while GReset == False:  # 화면 안넘어가게(종료안되게)막아주는 장치입니다.
+        into_Game(maintitle, 0, 0)
+        pygame.display.update()    # 게임오버화면 호출함.
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:  # 마우스로 창 닫으면 꺼집니다.
+                quit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_z:  #  r버튼을 누르면 재시작합니다.
+                    runGame()
 
 #게임을 초기화 하고 시작하는 함수입니다.
 def initGame():
     #전역 변수로 설정합니다.
-    global gamepad,clock,unit,BG,BG1,GOBG
+    global gamepad,clock,unit,BG,BG1,GOBG,maintitle
     global enemy,fires,bullet,boom,effect
     fires=[]
     #파이게임 라이브러리를 초기화함 꼭 호출해줘야 합니다.
@@ -435,6 +463,7 @@ def initGame():
     BG = pygame.image.load('images/bg.png')
     BG1 = BG.copy()
     GOBG = pygame.image.load('images/gobg.png')
+    maintitle = pygame.image.load('images/maintitle.png')
     # 적 이미지 및 방해물 추가
     enemy=pygame.image.load('images/enemy.png')
     fires.append((0,pygame.image.load('images/fireball.png')))
@@ -450,6 +479,6 @@ def initGame():
     # 초당 프레임을 위한 변수 생성
     clock = pygame.time.Clock()
     # runGame 함수 호출
-    runGame()
+    MainTitle()
 
 initGame()
