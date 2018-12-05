@@ -28,7 +28,7 @@
 
 - 게임이름  
 
-  생환  : THE LIVE
+ : THE LIVE
 
 - 게임장르
 
