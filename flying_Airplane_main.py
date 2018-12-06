@@ -274,7 +274,7 @@ def runGame():
             break
 
         # 적이 화면을 넘어가면 재생성하는 if문
-        enemy_y += 3
+        enemy_y += 6
         if enemy_y >= height:
             # 적이 파괴되지 않고 지나가면 카운트 1씩 증가
             enemy_passed += 1
@@ -410,7 +410,7 @@ def gameoverScore(count):  # 게임오버시 스코어를 표현하기위한 함
     global gamepad
     font = pygame.font.SysFont(None, 40)
     text = font.render(" " + str(count), True, [0,0,255])
-    gamepad.blit(text, (250, 361))
+    gamepad.blit(text, (265, 238))
 
 def GameOver():
     global GOBG
