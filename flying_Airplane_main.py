@@ -77,6 +77,7 @@ def runGame():
     global enemy_kill
 
     is_enemy_dead=False
+    enemy_kill = 0
     boom_count=0
     effect_count = 0
     # 적이 파괴되지 않고 지나간 횟수 카운트하는 변수
