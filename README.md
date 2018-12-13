@@ -1,4 +1,4 @@
-# **오픈소스개발 방법론**
+# **오픈소스 개발 방법론**
 
 ![](https://github.com/Chimaek/game_python/blob/master/game.gif)
 
