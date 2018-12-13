@@ -19,7 +19,6 @@ fireball2_height = 86
 # 킬 점수 카운트하는 변수입니다.
 enemy_kill = 0
 
-
 #게임오버 카운트 표시
 def Score(count):
     global gamepad
@@ -34,7 +33,6 @@ def killScore(count):
     text = font.render("Score : " + str(count), True, BGcolor)
     gamepad.blit(text, (0, 0))
 
-
 # 텍스트의 폰트와 크기등을 결정하고 2초 슬립시킵니다
 def dispMessage(text):
     waiting = True
@@ -45,12 +43,10 @@ def dispMessage(text):
     gamepad.blit(TextSurf, TextRect)
     pygame.display.update()
 
-
 # 게임 오버 표시
 def gameOver():
     global gamepad
     dispMessage('GAME OVER')
-
 
 def crash():
     global gamepad
@@ -60,11 +56,6 @@ def crash():
 def textObj(text, font):
     textSurface = font.render(text,True,[255,0,0])
     return textSurface, textSurface.get_rect()
-
-
-
-
-
 
 # 게임에 집어넣을 객체를 만드는 함수
 def into_Game(obj,x,y):
@@ -331,7 +322,6 @@ def runGame():
 
             plusScore(KillPlus)
 
-
         #  적 hp를 1씩 감소시키는 과정입니다
         if enemy_hpc == 1:
             enemy_hp -= 1
@@ -383,7 +373,6 @@ def runGame():
                     crash()
                     break
 
-
         # 적과 방해물 호출
         into_Game(enemy,enemy_x,enemy_y)
         if fire[1] != None:
@@ -399,7 +388,6 @@ def runGame():
         pygame.display.update()
         #fps 60으로 설정합니다,
         clock.tick(60)
-
 
     sleep(2)
     GameOver()  # 죽어서 break로 for을 빠져나오면 2초 멈췄다가 게임오버화면을 출력합니다.
@@ -430,8 +418,6 @@ def GameOver():
                     runGame()
                 if event.key == pygame.K_RETURN:  #  엔터를 누르면 메인으로갑니다.
                     MainTitle()
-
-
 
 def MainTitle():
     global maintitle
