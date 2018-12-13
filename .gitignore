@@ -110,3 +110,4 @@ venv.bak/
 *.xml
 *.xml
 *.xml
+.idea/workspace.xml
