@@ -314,7 +314,7 @@ def runGame():
                                 KillPlus = (700-y)/2
                                 is_enemy_dead=True  # 적을 사망처리
                                 PrintScore = True  # 점수 출력
-                
+                # 총알 배열에서 
                 if positon[1] <= -50:
                     try:
                         bullet_xy.remove(positon)
